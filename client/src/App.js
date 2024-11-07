@@ -1,5 +1,7 @@
 import react from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import CategoryView from ''
+import 
 
 function App() {
   return (
@@ -21,5 +23,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
