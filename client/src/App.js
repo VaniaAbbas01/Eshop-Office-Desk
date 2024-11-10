@@ -1,26 +1,21 @@
-import react from 'react';
+import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import CategoryView from ''
-import 
+
+import CategoryView from './components/category/View'
+
+import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Category CRUD Application</h1>
+      <BrowserRouter>
+        <Routes>
+            <Route exact path="/category/" element={<CategoryView />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
+
 export default App;
