@@ -36,11 +36,11 @@ create table product_image
     on update cascade on delete restrict
 );
 
-create table order
+create table orders
 (
     oid int auto_increment,
     cid int not null,
-    date _date,
+    _date date,
     status varchar(1000),
     constraint pk_order primary key(oid),
     constraint fk_order_category foreign key(cid) references category(cid)
@@ -49,11 +49,11 @@ create table order
 
 create table order_detail
 (
-    oid int auto_increment,
+    oid int not null,
     pid int not null,
     qty int,
     unit_price numeric(9,2),
-    constraint fk_order_detail_order foreign key(oid) references order(oid),
+    constraint fk_order_detail_order foreign key(oid) references orders(oid),
     constraint fk_order_detail_product foreign key(pid) references product(pid)
     on update cascade on delete restrict
 );

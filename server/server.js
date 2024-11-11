@@ -6,9 +6,9 @@
 
 // load modules
 const express = require('express');
-const parseJson = require('parse-json'); // to easily read Json data 
+// const parseJson = require('parse-json'); // to easily read Json data 
 const cors = require('cors'); // c:Cross o:Origin rs:Requests -> 
-const mysql_lib = require("../db/mysql_lib"); // custom mysql lib 
+const mysql_lib = require("./db/mysql_lib.js"); // custom mysql lib 
 const bodyParser = require('body-parser');
 
 // create objects 
