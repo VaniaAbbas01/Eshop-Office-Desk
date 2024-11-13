@@ -1,12 +1,12 @@
-const mysql=require('mysql')
+const mysql=require('mysql2')
 
 // mysql server credentials
 mysql_con_properties= {
     host: 'localhost',
-    user: 'haseeb',
-    password: 'fork',
+    user: 'root',
+    password: '',
     database: 'eshop',
-    port: '/var/run/mysqld/mysqld.sock'
+    port: '3306'
 };
 
 var con;

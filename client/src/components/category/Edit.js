@@ -11,17 +11,18 @@ function CategoryEdit()
 
     function getCategoryData()
     {
-        axios.get('/category/:id').then(function(res) {
-            setName(res.name);
-            setDescription(res.description);
+        axios.get('http://localhost:5000/category/:cid', [id]).then((res)=>{
+            console.log(res.data);
+            setName(res.data.name);
+            setDescription(res.data.description);
         })
-    }
+    };
 
     function save()
     {
         axios.post('category/update', [name, description, id]);
         setMsg("Successfully Edited");
-    }
+    };
 
     useEffect(() => {
         getCategoryData();
@@ -29,12 +30,13 @@ function CategoryEdit()
 
     return (
         <div>
-        <p><Link to='/category/add'>New category</Link></p>
         <table>
             <tbody>
                 <input name="name" >{name}</input>
                 <input name="description" >{description}</input>
                 <input name="id" type='hidden' >{id}</input>
+                <button type="submit" onClick={save}>Submit</button>
+                <p>{msg}</p>
             </tbody>
         </table>
     </div>
