@@ -12,7 +12,7 @@ function CategoryEdit()
     function getCategoryData()
     {
         axios.get('http://localhost:5000/category/:cid', [id]).then((res)=>{
-            console.log(res.data);
+            console.log(res.data);  
             setName(res.data.name);
             setDescription(res.data.description);
         })
