@@ -4,6 +4,8 @@ import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 import CategoryView from './components/category/View'
 import CategoryEdit from './components/category/Edit'
 import DeleteCategory from './components/category/Delete'
+import OrderView from './components/order/View'
+import DeleteCategory from './components/category/Delete'
 
 import './App.css';
 
@@ -24,7 +26,7 @@ function App() {
             <Route exact path="/category/" element={<CategoryView />} />
             <Route exact path="/category/edit/:id" element={<CategoryEdit />} />
             <Route exact path="/category/delete/:id" element={<DeleteCategory />} />
-            <Route exact path="/product" element={<ProductView />} />
+            <Route exact path="/products" element={<ProductView />} />
             <Route exact path="/order" element={<OrderView />} />
         </Routes>
       </BrowserRouter>
