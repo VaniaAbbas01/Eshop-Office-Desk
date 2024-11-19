@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useParams, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 function CategoryEdit()
@@ -8,6 +8,7 @@ function CategoryEdit()
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [msg, setMsg] = useState('');
+    const navigate = useNavigate()
 
     function getCategoryData()
     {
@@ -20,8 +21,9 @@ function CategoryEdit()
 
     function save()
     {
-        axios.post('category/update', [name, description, id]);
-        setMsg("Successfully Edited");
+        axios.post('http://localhost:5000/category/update', {cid: cid, name:name, description:description}).then((res)=>{
+            navigate(-1);
+        });
     };
 
     useEffect(() => {
@@ -35,7 +37,8 @@ function CategoryEdit()
                 <input name="name" >{name}</input>
                 <input name="description" >{description}</input>
                 <input name="id" type='hidden' >{id}</input>
-                <button type="submit" onClick={save}>Submit</button>
+                <button onClick={save}>Submit</button>
+                <button onClick={()=>navigate(-1)}>Cancel</button>
                 <p>{msg}</p>
             </tbody>
         </table>
