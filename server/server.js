@@ -20,12 +20,12 @@ app.use(bodyParser.json());
 // accept cross origin requests
 app.use(cors());
 
-const defaultRouter = require('./routes/default.js'); // landing page route
+const orderRouter = require('./routes/order.js'); // landing page route
 const categoryRouter = require('./routes/category.js');
 const productRouter = require('./routes/product.js');
 
 // bind urls with routers
-app.use('/', defaultRouter);
+app.use('/', orderRouter);
 app.use('/category', categoryRouter);
 app.use('/product', productRouter);
 
