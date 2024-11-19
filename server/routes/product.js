@@ -17,7 +17,7 @@ router.get('/', (req,res) => {
                     })
 })
 
-router.get('/:cid', (req,res) => {
+router.get('/:pid', (req,res) => {
     let pid = req.params.pid;
     mysql_lib.query('select pid, name, unit_price, description from product where pid = ?',
                     [pid],
@@ -67,7 +67,7 @@ router.post('/update', (req,res) => {
                     })
 })
 
-router.post('/delete/:cid', (req,res) => {
+router.post('/delete/:pid', (req,res) => {
     let pid = req.params.pid;
     mysql_lib.query('DELETE FROM product WHERE pid = ?',
                     [pid],

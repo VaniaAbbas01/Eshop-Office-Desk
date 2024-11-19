@@ -9,14 +9,16 @@ function ProductView(){
 
     // call /product api and store data received in response
     // to productList state variable
-    function getProductList(){
-        console.log('getProductList called');
+    async function getProductList(){
+        /* console.log('getProductList called');
         axios.get('http://localhost:5000/product/').then((res)=>{
-        setProductList(res.data);
+            setProductList(res.data);
         //*console.log(res.data);
-        });
-    }
+        }); */
+        const res = await axios.get('http://localhost:5000/product/');
+        setProductList(res.data);
 
+    }
 
     // set useEffect hook to call getProductList function
     // when there is change in productList array i.e. only once

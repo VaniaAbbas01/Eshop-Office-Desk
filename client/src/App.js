@@ -12,6 +12,7 @@ function App() {
     <div className="App">
       <h1>Category CRUD Application</h1>
       <BrowserRouter>
+      // created hyper links
         <nav>
           <Link to="/">Home</Link> 
           <Link to="/category">Categories</Link>
