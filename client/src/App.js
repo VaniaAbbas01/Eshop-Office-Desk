@@ -1,6 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 
+import LoginView from "./components/user/Login"
 import CategoryView from './components/category/View'
 import CategoryEdit from './components/category/Edit'
 import DeleteCategory from './components/category/Delete'
@@ -22,7 +23,7 @@ function App() {
           <Link to="/order">Orders</Link>
         </nav>
         <Routes>
-            <Route exact path="/" element={<OrderView />} />
+            <Route exact path="/" element={<LoginView />} />
             <Route exact path="/category/" element={<CategoryView />} />
             <Route exact path="/category/edit/:id" element={<CategoryEdit />} />
             <Route exact path="/category/delete/:id" element={<DeleteCategory />} />
