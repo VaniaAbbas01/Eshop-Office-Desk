@@ -10,7 +10,7 @@ router.get('/user/login', (req,res)=>{
         function(err, rows, fields){
             if(err){
                 console.log(err);
-                res.status(500).send({'msg': err});
+                res.status(500).send({loggedIn: false, 'msg': err});
             }
             else{
                 if(rows.length ==0)
