@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
@@ -9,12 +8,14 @@ function CategoryView(){
 
     // call /category api and store data received in response
     // to categoryList state variable
-    function getCategoryList(){
-        console.log('getCategoryList called');
+    async function getCategoryList(){
+        /*
         axios.get('http://localhost:5000/category/').then((res)=>{
-            setCategoryList(res.data);
-        //*console.log(res.data);
+        setCategoryList(res.data);
         });
+        */
+        const res = await axios.get('http://localhost:5000/category/');
+        setCategoryList(res.data);
     }
 
 
@@ -27,7 +28,7 @@ function CategoryView(){
     return (
         <div>
             <p><Link to='/category/add'>New category</Link></p>
-            <table>
+            <table align="center">
                 <thead>
                     <tr>
                         <th>SN</th>

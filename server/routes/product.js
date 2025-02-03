@@ -1,83 +1,78 @@
-const express = require('express')
-const router = express.Router()
+// product router file
+
+// load libraries
+const express=require('express')
+const router=express.Router()
 const mysql_lib=require('../db/mysql_lib')
 
+// define routes
 
-router.get('/', (req,res) => {
-    mysql_lib.query('select pid, name, unit_price, description from product',
+// route to view all products
+router.get('/', (req, res)=>{
+    mysql_lib.query('select pid, name, description from product',
                     undefined,
                     function(err, rows, fields){
                         if(err){
-                            console.log(err);
-                            res.status(500).send({'msg': err});
+                            console.log(err)
+                            res.status(500).send({'msg': err})
                         }
                         else{
-                            res.status(200).send(rows);
+                            res.status(200).send(rows)
                         }
                     })
 })
 
-router.get('/:pid', (req,res) => {
-    let pid = req.params.pid;
-    mysql_lib.query('select pid, name, unit_price, description from product where pid = ?',
-                    [pid],
+// route to view products by category
+router.get('/:cid', (req, res)=>{
+    let cid=req.params.cid
+    mysql_lib.query('select pid, name, description from product where cid=?',
+                    [cid],
                     function(err, rows, fields){
                         if(err){
-                            console.log(err);
-                            res.status(500).send({'msg': err});
+                            console.log(err)
+                            res.status(500).send({'msg': err})
                         }
                         else{
-                            res.status(200).send(rows);
+                            res.status(200).send(rows)
                         }
                     })
 })
 
-router.post('/add', (req,res) => {
-    let name = req.params.name;
-    let description = req.params.description;
-    let unit_price = req.params.unit_price;
-    mysql_lib.query('insert into product(name, description, unit_price) values (?,?,?)',
-                    [name, description, unit_price],
+// route to view products by category and price range
+// parameters: cid, pricefrom, priceto
+router.post('/filter', (req, res)=>{
+    let cid=req.body.cid;
+    let pricefrom=req.body.pricefrom;
+    let priceto=req.body.priceto;
+    let values=[];
+    let qry='select p.pid, p.name, p.unit_price as price, (select image from product_images where pid=p.pid limit 1) as image from product p';
+    if( cid==="0" || cid==="" ){
+        qry+=' where p.cid=(select cid from category limit 1)';
+    } else {
+        qry+=' where p.cid=?';
+        values.push(cid);
+    }
+    if( pricefrom.length!==0 && priceto.length!==0){
+        qry+=' and p.unit_price between ? and ?';
+        values.push(pricefrom);
+        values.push(priceto);
+    } else if( pricefrom.length!==0 && priceto.length===0){
+        qry+=' and unit_price>=?';
+        values.push(pricefrom);
+    } else if( pricefrom.length===0 && priceto.length!==0){
+        qry+=' and unit_price<=?';
+        values.push(priceto);
+    }
+    //res.send({"qry": qry, "values": values})
+    mysql_lib.query(qry,
+                    values,
                     function(err, rows, fields){
                         if(err){
-                            console.log(err);
-                            res.status(500).send({'msg': err});
+                            console.log(err)
+                            res.status(500).send({'msg': err})
                         }
                         else{
-                            res.status(200).send({'msg': "Product Added"});
-                        }
-                    })
-})
-
-router.post('/update', (req,res) => {
-    let name = req.params.name;
-    let description = req.params.description;
-    let unit_price = req.params.unit_price;
-    let pid = req.params.pid;
-    mysql_lib.query('update product set name = ? description = ? unit_price = ? where pid = ?',
-                    [name, description, unit_price, pid],
-                    function(err, rows, fields){
-                        if(err){
-                            console.log(err);
-                            res.status(500).send({'msg': err});
-                        }
-                        else{
-                            res.status(200).send({'msg': "Record Updated"});
-                        }
-                    })
-})
-
-router.post('/delete/:pid', (req,res) => {
-    let pid = req.params.pid;
-    mysql_lib.query('DELETE FROM product WHERE pid = ?',
-                    [pid],
-                    function(err, rows, fields){
-                        if(err){
-                            console.log(err);
-                            res.status(500).send({'msg': err});
-                        }
-                        else{
-                            res.status(200).send({'msg': "Record Deleted"});
+                            res.status(200).send(rows)
                         }
                     })
 })

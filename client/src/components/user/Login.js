@@ -1,46 +1,56 @@
-import React, {useState} from 'react'
-import {useNavigate} from 'react-router-dom'
-import axios from 'axios'
+import React, {useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
-
-function LoginView(){
-    const [userId, setUserId] = useState('');
-    const [password, setPassword] = useState('');
-    const [msg, setMsg] = useState('');
-
+function UserLogin(e){
+    const [msg, saveMsg]=useState('');
+    const [username, setUserName]=useState('');
+    const [password, setPassword]=useState(0);
+    let navigate=useNavigate();
+    
     function signin(){
-        const res=axios.post('/user/login', {userId:userId, password:password});
-        if(res.data.loggedIn === false){
-            setMsg(res.data.msg);
-        }
-        else{
-            const token=res.data.token;
-            // res.cookie('token',token, {expiresIn: '60m'}); // store token using cookie
-            localStorage.setItem('token', token, {expiresIn: '60m'});
-            Navigate('/order/');
-        }
-
+        axios.post(
+            '/users/login',
+            {username:username, password:password}).then((res)=>{
+                //console.log(res);
+                if(res.data.loggedIn===false){
+                    saveMsg(res.data.msg);
+                }else{
+                    const token=res.data.token;
+                    // save token in local storage
+                    localStorage.setItem('token', JSON.stringify(token));
+                    // redirect to /users/
+                    return navigate("/users");
+                }
+            }).catch((err)=>{
+                console.log("err");
+            });
     }
-
+    
     return (
         <div>
+            <p>{msg}</p>
             <h2>Sign In</h2>
-            <table align='center'>
+            <table>
                 <tbody>
                     <tr>
                         <td>User Name</td>
-                        <td><input type="text" name="name" value={name} onChange={(e)=> {setUserId(e.target.value)}}/></td>
+                        <td><input type='text' name='username' maxlen="20" onChange={(e)=>{setUserName(e.target.value)}} /></td>
                     </tr>
                     <tr>
                         <td>Password</td>
-                        <td><input type="password" name="password" value={password} onChange={(e)=> {setPassword(e.target.value)}}/></td>
+                        <td><input type='password' name='password' maxlen="20" onChange={(e)=>{setPassword(e.target.value)}} /></td>
                     </tr>
-
+                    <tr>
+                        <td colSpan='2'>
+                            <button onClick={signin}>Sign In</button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
+            <Link to='/products'>Products Home</Link>
         </div>
     );
-
 }
 
-export default LoginView;
+export default UserLogin;

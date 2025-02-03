@@ -10,6 +10,7 @@ const express = require('express');
 const cors = require('cors'); // c:Cross o:Origin rs:Requests -> 
 const mysql_lib = require("./db/mysql_lib.js"); // custom mysql lib 
 const bodyParser = require('body-parser');
+const path = require('path');
 
 // create objects 
 const app=express();
@@ -20,16 +21,23 @@ app.use(bodyParser.json());
 // accept cross origin requests
 app.use(cors());
 
+app.use('/upload', express.static(path.join(__dirname, 'uploads')));
+
 const userRouter = require('./routes/user.js');
 const orderRouter = require('./routes/order.js'); // landing page route
 const categoryRouter = require('./routes/category.js');
 const productRouter = require('./routes/product.js');
+const uploadRouter = require('./routes/upload.js');
+const customerRouter = require('./routes/customer.js');
 
 // bind urls with routers
-app.use('/', userRouter);
+app.use('/user', userRouter);
 app.use('/category', categoryRouter);
 app.use('/product', productRouter);
 app.use('/order', orderRouter);
+app.use('/upload', uploadRouter);
+app.use('/customer', customerRouter);
+
 
 // start web server
 app.listen(5000,()=>{

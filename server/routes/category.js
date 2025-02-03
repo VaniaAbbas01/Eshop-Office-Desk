@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const mysql_lib=require('../db/mysql_lib')
+const auth=require('./authorize')
 
 
-router.get('/', (req,res) => {
+router.get('/', auth.authorizeUser, (req,res) => {
     mysql_lib.query('select cid, name, description from category',
                     undefined,
                     function(err, rows, fields){
@@ -32,7 +33,7 @@ router.get('/:cid', (req,res) => {
                     })
 })
 
-router.post('/add', (req,res) => {
+router.post('/add', auth.authorizeUser, (req,res) => {
     let name = req.params.name;
     let description = req.params.description;
     mysql_lib.query('insert into category(name, descriptio) values (?,?)',
@@ -65,7 +66,7 @@ router.post('/update', (req,res) => {
                     })
 })
 
-router.post('/delete/:cid', (req,res) => {
+router.post('/delete/:cid', auth.authorizeUser, (req,res) => {
     let cid = req.params.cid;
     mysql_lib.query('DELETE FROM category WHERE cid = ?',
                     [cid],
